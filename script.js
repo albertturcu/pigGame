@@ -71,6 +71,8 @@ function savePlayer(playerProfile) {
       gameReady = true;
       enableGame();
     }
+  } else {
+    return "Not valid player"
   }
 }
 
