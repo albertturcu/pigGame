@@ -4,7 +4,12 @@ let validForm;
 
 init();
 
-document.querySelector(".btn-roll").addEventListener("click", function () {
+document.querySelector(".btn-roll").addEventListener("click", btnRoll);
+document.querySelector(".btn-hold").addEventListener("click", btnHold);
+document.querySelector(".btn-new").addEventListener("click", init);
+document.querySelector(".btn-changeUsers").addEventListener("click", changeUsers);
+
+function btnRoll() {
   if (gamePlaying) {
     let dice = getRandomIntInclusive(1, 6),
       diceDOM = document.querySelector(".dice");
@@ -23,9 +28,9 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
       nextPlayer();
     }
   }
-});
+}
 
-document.querySelector(".btn-hold").addEventListener("click", function () {
+function btnHold() {
   if (gamePlaying) {
     scores[activePlayer] += roundScore;
     document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
@@ -50,14 +55,11 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
       nextPlayer();
     }
   }
-});
-
-document.querySelector(".btn-new").addEventListener("click", init);
-document.querySelector(".btn-changeUsers").addEventListener("click", changeUsers);
+}
 
 function savePlayer(playerProfile) {
   valid = formValidation(playerProfile);
-  console.log(valid);
+
   if (valid) {
     if (playerProfile == "firstPlayer") {
       firstPlayerProfile = $(`form.${playerProfile}`).serializeArray();
