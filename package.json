@@ -1,0 +1,33 @@
+{
+  "name": "piggame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "nyc": "^15.0.1",
+    "puppeteer": "^3.0.4",
+    "sinon": "^9.0.2"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.2"
+  },
+  "scripts": {
+    "test": "mocha",
+    "interfaceTest": "mocha --timeout 0 ./test/interfaceSetup.js --recursive test",
+    "coverage": "nyc mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/albertturcu/pigGame.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/albertturcu/pigGame/issues"
+  },
+  "homepage": "https://github.com/albertturcu/pigGame#readme"
+}
