@@ -4,7 +4,7 @@
   roundScore = 0;
   firstPlayerProfile = undefined;
   secondPlayerProfile = undefined;
-  gameReady = true;
+  gameReady = false;
   validForm = false;
 
   btnRoll(dice, secondDice) {
@@ -23,7 +23,9 @@
     let winningScore;
 
     if (this.gameReady) {
-      this.scores[this.activePlayer] += roundScore;
+      if(Number.isInteger(this.roundScore)){
+        this.scores[this.activePlayer] += this.roundScore;
+      }
 
       if (finalScore) {
         winningScore = finalScore;
@@ -35,6 +37,7 @@
         this.gameReady = false;
         return {"winner": this.scores[this.activePlayer]};
       } else {
+        this.roundScore = 0;
         return {"nextPlayer": this.scores[this.activePlayer]};
       }
     }
@@ -44,10 +47,9 @@
     if (valid) {
       if (playerProfile['playerId'] == "firstPlayer") {
         this.firstPlayerProfile = playerProfile;
-      } else if (playerProfile == "secondPlayer") {
+      } else if (playerProfile['playerId'] == "secondPlayer") {
         this.secondPlayerProfile = playerProfile;
       }
-
       if (this.firstPlayerProfile != undefined && this.secondPlayerProfile != undefined) {
         this.gameReady = true;
       }
@@ -60,50 +62,67 @@
   nextPlayer() {
     this.activePlayer === 0 ? (this.activePlayer = 1) : (this.activePlayer = 0);
     this.roundScore = 0;
-    return "next player"
   }
 
   formValidation(playerProfile) {
     let username, age, email, gameExperience;
+    let playerId = playerProfile['playerId'];
+    let invalid = {
+      'valid': this.validForm,
+      'playerId': [],
+      'input': []
+    }
 
     for (let i = 0; i < 4; i++) {
       switch (i) {
         case 0:
-          username = playerProfile[0];
+          username = playerProfile['username'];
         case 1:
-          age = playerProfile[1];
+          age = playerProfile['age'];
         case 2:
-          email = playerProfile[2];
+          email = playerProfile['email'];
         case 3:
-          gameExperience = playerProfile[3];
+          gameExperience = playerProfile['experience'];
       }
     }
 
     if (typeof username == "string" && username.length >= 3 && username.length <= 25) {
       this.validForm = true;
-      if (typeof age == "number" && age > 1 && age < 100) {
-          this.validForm = true;
-          if (typeof email == "string" && email.length > 5 && email.length < 255) {
-              this.validForm = true;
-              if (typeof gameExperience == "number" && gameExperience > 0 && gameExperience <= 5) {
-                  this.validForm = true;
-                } else {
-                  this.validForm = false;
-                  $('<p id="error-message" style="font-size: 14px;color:red">Invalid input</p>').insertAfter($(`form.${playerProfile} input`)[3]);
-                }
-            } else {
-              this.validForm = false;
-              $('<p id="error-message" style="font-size: 14px;color:red">Invalid input</p>').insertAfter($(`form.${playerProfile} input`)[2]);
-            }
-        } else {
-          this.validForm = false;
-          $('<p id="error-message" style="font-size: 14px;color:red">Invalid input</p>').insertAfter($(`form.${playerProfile} input`)[1]);
-        }
+      invalid['valid'] = this.validForm;
     } else {
       this.validForm = false;
-      $('<p id="error-message" style="font-size: 14px;color:red">Invalid input</p>').insertAfter($(`form.${playerProfile} input`)[0]);
+      invalid['playerId'].push(playerId)
+      invalid['input'].push(0)
     }
-    return this.validForm;
+
+    if (typeof age == "number" && age > 1 && age < 100) {
+      this.validForm = true;
+      invalid['valid'] = this.validForm;
+    }else{
+      this.validForm = false;
+      invalid['playerId'].push(playerId)
+      invalid['input'].push(1)
+    }
+
+    if (typeof email == "string" && email.length > 5 && email.length < 255) {
+      this.validForm = true;
+      invalid['valid'] = this.validForm;
+    }else{
+      this.validForm = false;
+      invalid['playerId'].push(playerId)
+      invalid['input'].push(2)
+    }
+
+    if (typeof gameExperience == "number" && gameExperience > 0 && gameExperience <= 5) {
+      this.validForm = true;
+      invalid['valid'] = this.validForm;
+    } else {
+      this.validForm = false;
+      invalid['playerId'].push(playerId)
+      invalid['input'].push(3)
+    }
+
+    return invalid;
   }
 
   getRandomIntInclusive(min, max) {

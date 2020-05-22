@@ -116,14 +116,6 @@
         document.querySelector(".player-0-panel").classList.remove("active");
         document.querySelector(".player-1-panel").classList.remove("active");
         document.querySelector(".player-0-panel").classList.add("active");
-        document.getElementById('player-1-username').value = ""
-        document.getElementById('player-2-username').value = ""
-        document.getElementById('player-1-email').value = ""
-        document.getElementById('player-2-email').value = ""
-        document.getElementById('player-1-age').value = ""
-        document.getElementById('player-2-age').value = ""
-        document.getElementById('player-1-experience').value = ""
-        document.getElementById('player-2-experience').value = ""
       }
 
       function btnRoll(){
@@ -139,15 +131,16 @@
 
         roundScore = game.btnRoll(dice, secondDice);
         if(roundScore == 'nextPlayer'){
+          game.roundScore = 0;
           nextPlayer();
-        }else{
+        } else {
           document.querySelector("#current-" + game.activePlayer).textContent = roundScore;
         }
       }
 
       function btnHold(){
         let input = document.querySelector(".final-score").value;
-        score = game.btnHold(input);
+        score = game.btnHold(input)
 
         if(score['winner']){
           document.getElementById("score-" + game.activePlayer).textContent = score['winner'];
@@ -156,7 +149,7 @@
           document.querySelector(".secondDice").style.display = "none";
           document.querySelector(".player-" + game.activePlayer + "-panel").classList.remove("active");
           document.querySelector(".player-" + game.activePlayer + "-panel").classList.add("winner");
-        } else {
+        } else if(Number.isInteger(score['nextPlayer'])){
           document.getElementById("score-" + game.activePlayer).textContent = score['nextPlayer'];
           nextPlayer();
         }
@@ -176,31 +169,56 @@
 
       function changeUsers(){
         init();
+        document.getElementById('player-1-username').value = ""
+        document.getElementById('player-2-username').value = ""
+        document.getElementById('player-1-email').value = ""
+        document.getElementById('player-2-email').value = ""
+        document.getElementById('player-1-age').value = ""
+        document.getElementById('player-2-age').value = ""
+        document.getElementById('player-1-experience').value = ""
+        document.getElementById('player-2-experience').value = ""
         document.querySelector("#overlay").style.display = "";
       }
 
       function savePlayer(playerId){
-        console.log(playerId);
         playerProfileData = {
           'playerId': playerId,
-          'username': $(`form.${playerId} input`).value,
-          'age': parseInt($(`form.${playerId} input`).value, 10),
-          'email': $(`form.${playerId} input`).value,
-          'experiance': parseInt($(`form.${playerId} input`).value, 10)
+          'username': $(`form.${playerId} input`)[0].value,
+          'age': parseInt($(`form.${playerId} input`)[1].value, 10),
+          'email': $(`form.${playerId} input`)[2].value,
+          'experience': parseInt($(`form.${playerId} input`)[3].value, 10)
         }
-
+        console.log(playerProfileData);
         valid = formValidation(playerProfileData);
+        console.log(valid);
         if(valid){
           game.savePlayer(valid, playerProfileData);
+        }
+        if (game.firstPlayerProfile != undefined && game.secondPlayerProfile != undefined) {
           document.querySelector("#overlay").style.display = "none";
         }
       }
 
       function formValidation(playerProfileData){
         $("p[id=error-message]").remove();
+        let inputErrorQuery = []
 
         valid = game.formValidation(playerProfileData);
-        return valid;
+
+        valid['playerId'].forEach(element => {
+          inputErrorQuery.push(`form.${element} input`);
+        });
+
+        valid['input'].forEach((element, value) => {
+          inputErrorQuery[value] = inputErrorQuery[value].concat(`[${element}]`)
+        });
+
+        inputErrorQuery.forEach(element => {
+          inputField = element.substring(element.length-2,element.length-1)
+          element = element.slice(0,-3);
+          $('<p id="error-message" style="font-size: 14px;color:red">Invalid input</p>').insertAfter($(`${element}`)[inputField]);
+        })
+        return valid['valid'];
       }
     </script>
   </body>
