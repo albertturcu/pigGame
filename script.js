@@ -1,11 +1,13 @@
 class PigGame {
-  scores = [0, 0];
-  activePlayer = 0;
-  roundScore = 0;
-  firstPlayerProfile = undefined;
-  secondPlayerProfile = undefined;
-  gameReady = false;
-  validForm = false;
+  constructor() {
+    this.scores = [0, 0];
+    this.activePlayer = 0;
+    this.roundScore = 0;
+    this.firstPlayerProfile = undefined;
+    this.secondPlayerProfile = undefined;
+    this.gameReady = false;
+    this.validForm = false;
+  }
 
   btnRoll(dice, secondDice) {
     if (this.gameReady) {
