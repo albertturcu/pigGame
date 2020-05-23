@@ -1,4 +1,4 @@
- class PigGame {
+class PigGame {
   scores = [0, 0];
   activePlayer = 0;
   roundScore = 0;
@@ -23,7 +23,7 @@
     let winningScore;
 
     if (this.gameReady) {
-      if(Number.isInteger(this.roundScore)){
+      if (Number.isInteger(this.roundScore)) {
         this.scores[this.activePlayer] += this.roundScore;
       }
 
@@ -35,22 +35,25 @@
 
       if (this.scores[this.activePlayer] >= winningScore) {
         this.gameReady = false;
-        return {"winner": this.scores[this.activePlayer]};
+        return { winner: this.scores[this.activePlayer] };
       } else {
         this.roundScore = 0;
-        return {"nextPlayer": this.scores[this.activePlayer]};
+        return { nextPlayer: this.scores[this.activePlayer] };
       }
     }
   }
 
   savePlayer(valid, playerProfile) {
     if (valid) {
-      if (playerProfile['playerId'] == "firstPlayer") {
+      if (playerProfile["playerId"] == "firstPlayer") {
         this.firstPlayerProfile = playerProfile;
-      } else if (playerProfile['playerId'] == "secondPlayer") {
+      } else if (playerProfile["playerId"] == "secondPlayer") {
         this.secondPlayerProfile = playerProfile;
       }
-      if (this.firstPlayerProfile != undefined && this.secondPlayerProfile != undefined) {
+      if (
+        this.firstPlayerProfile != undefined &&
+        this.secondPlayerProfile != undefined
+      ) {
         this.gameReady = true;
       }
       return "Player validated";
@@ -66,60 +69,78 @@
 
   formValidation(playerProfile) {
     let username, age, email, gameExperience;
-    let playerId = playerProfile['playerId'];
+    let playerId = playerProfile["playerId"];
+    let usernameValid = false;
+    let ageValid = false;
+    let emailValid = false;
+    let expValid = false;
+
     let invalid = {
-      'valid': this.validForm,
-      'playerId': [],
-      'input': []
-    }
+      valid: this.validForm,
+      playerId: [],
+      input: [],
+    };
 
     for (let i = 0; i < 4; i++) {
       switch (i) {
         case 0:
-          username = playerProfile['username'];
+          username = playerProfile["username"];
         case 1:
-          age = playerProfile['age'];
+          age = playerProfile["age"];
         case 2:
-          email = playerProfile['email'];
+          email = playerProfile["email"];
         case 3:
-          gameExperience = playerProfile['experience'];
+          gameExperience = playerProfile["experience"];
       }
     }
 
-    if (typeof username == "string" && username.length >= 3 && username.length <= 25) {
-      this.validForm = true;
-      invalid['valid'] = this.validForm;
+    if (
+      typeof username == "string" &&
+      username.length >= 3 &&
+      username.length <= 25
+    ) {
+      usernameValid = true;
+      invalid["valid"] = this.validForm;
     } else {
-      this.validForm = false;
-      invalid['playerId'].push(playerId)
-      invalid['input'].push(0)
+      usernameValid = false;
+      invalid["playerId"].push(playerId);
+      invalid["input"].push(0);
     }
 
-    if (typeof age == "number" && age > 1 && age < 100) {
-      this.validForm = true;
-      invalid['valid'] = this.validForm;
-    }else{
-      this.validForm = false;
-      invalid['playerId'].push(playerId)
-      invalid['input'].push(1)
+    if (typeof age == "number" && age >= 1 && age <= 100) {
+      ageValid = true;
+      invalid["valid"] = this.validForm;
+    } else {
+      ageValid = false;
+      invalid["playerId"].push(playerId);
+      invalid["input"].push(1);
     }
 
     if (typeof email == "string" && email.length > 5 && email.length < 255) {
-      this.validForm = true;
-      invalid['valid'] = this.validForm;
-    }else{
-      this.validForm = false;
-      invalid['playerId'].push(playerId)
-      invalid['input'].push(2)
+      emailValid = true;
+      invalid["valid"] = this.validForm;
+    } else {
+      emailValid = false;
+      invalid["playerId"].push(playerId);
+      invalid["input"].push(2);
+    }
+    if (
+      typeof gameExperience == "number" &&
+      gameExperience > 0 &&
+      gameExperience <= 5
+    ) {
+      expValid = true;
+      invalid["valid"] = this.validForm;
+    } else {
+      expValid = false;
+      invalid["playerId"].push(playerId);
+      invalid["input"].push(3);
     }
 
-    if (typeof gameExperience == "number" && gameExperience > 0 && gameExperience <= 5) {
-      this.validForm = true;
-      invalid['valid'] = this.validForm;
+    if (usernameValid && ageValid && emailValid && emailValid) {
+      invalid["valid"] = true;
     } else {
-      this.validForm = false;
-      invalid['playerId'].push(playerId)
-      invalid['input'].push(3)
+      invalid["valid"] = false;
     }
 
     return invalid;
@@ -131,3 +152,5 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }
+
+module.exports = { PigGame };

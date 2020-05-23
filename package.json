@@ -2,10 +2,6 @@
   "name": "piggame",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
-  "directories": {
-    "test": "test"
-  },
   "dependencies": {
     "chai": "^4.2.0",
     "nyc": "^15.0.1",
@@ -17,7 +13,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "interfaceTest": "mocha --timeout 0 ./test/interfaceSetup.js --recursive test",
+    "interfaceTest": "mocha --timeout 0 ./interfaceTest/interfaceSetup.js --recursive interfaceTest",
     "coverage": "nyc mocha"
   },
   "repository": {
