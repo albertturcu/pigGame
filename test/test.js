@@ -69,7 +69,7 @@ describe("#pigGame", () => {
   });
   describe("Test savePlayer function ", () => {
     savePlayerProvider.forEach((value) => {
-      it(`should return ${value.result}, if ${value.playerProfile} is passsed`, () =>{
+      it(`should return ${value.result}, if valid argument is ${value.valid}`, () =>{
         assert.equal(
           game.savePlayer(value.valid, value.playerProfile),
           value.result)
