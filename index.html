@@ -188,9 +188,7 @@
           'email': $(`form.${playerId} input`)[2].value,
           'experience': parseInt($(`form.${playerId} input`)[3].value, 10)
         }
-        console.log(playerProfileData);
         valid = formValidation(playerProfileData);
-        console.log(valid);
         if(valid){
           game.savePlayer(valid, playerProfileData);
         }

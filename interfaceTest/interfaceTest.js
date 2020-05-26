@@ -7,7 +7,7 @@ describe("Automated UI testing of Pig Game", async () => {
   before(async () => {
     page = await browser.newPage();
     await page.goto(
-      `C:/Users/Alexander/Desktop/Software Test Exam/Project/pigGame/index.html`
+      `file:// + absolute path`
     );
     await page.setViewport({ width: 1920, height: 1040 });
   });

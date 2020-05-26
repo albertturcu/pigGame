@@ -37,7 +37,7 @@ const invalidUserProfileProvider = [
   },
   {
     playerId: "firstPlayer",
-    username: "this-username-is-too-long",
+    username: "this-username-is-too-long-to-be-valid",
     age: 100,
     email: "a@b.c",
     experience: 1,

@@ -52,10 +52,7 @@ class PigGame {
       } else if (playerProfile["playerId"] == "secondPlayer") {
         this.secondPlayerProfile = playerProfile;
       }
-      if (
-        this.firstPlayerProfile != undefined &&
-        this.secondPlayerProfile != undefined
-      ) {
+      if (this.firstPlayerProfile != undefined && this.secondPlayerProfile != undefined) {
         this.gameReady = true;
       }
       return "Player validated";
@@ -87,64 +84,56 @@ class PigGame {
       switch (i) {
         case 0:
           username = playerProfile["username"];
+          if (typeof username == "string" && username.length >= 3 && username.length <= 25) {
+            usernameValid = true;
+            invalid["valid"] = this.validForm;
+          } else {
+            usernameValid = false;
+            invalid["playerId"].push(playerId);
+            invalid["input"].push(0);
+          }
+          break;
         case 1:
           age = playerProfile["age"];
+          if (typeof age == "number" && age >= 1 && age <= 100) {
+            ageValid = true;
+            invalid["valid"] = this.validForm;
+          } else {
+            ageValid = false;
+            invalid["playerId"].push(playerId);
+            invalid["input"].push(1);
+          }
+          break;
         case 2:
           email = playerProfile["email"];
+          if (typeof email == "string" && email.length >= 5 && email.length < 255) {
+            emailValid = true;
+            invalid["valid"] = this.validForm;
+          } else {
+            emailValid = false;
+            invalid["playerId"].push(playerId);
+            invalid["input"].push(2);
+          }
+          break;
         case 3:
           gameExperience = playerProfile["experience"];
+          if (typeof gameExperience == "number" && gameExperience > 0 && gameExperience <= 5) {
+            expValid = true;
+            invalid["valid"] = this.validForm;
+          } else {
+            expValid = false;
+            invalid["playerId"].push(playerId);
+            invalid["input"].push(3);
+          }
+          break;
       }
     }
 
-    if (
-      typeof username == "string" &&
-      username.length >= 3 &&
-      username.length <= 25
-    ) {
-      usernameValid = true;
-      invalid["valid"] = this.validForm;
-    } else {
-      usernameValid = false;
-      invalid["playerId"].push(playerId);
-      invalid["input"].push(0);
-    }
-
-    if (typeof age == "number" && age >= 1 && age <= 100) {
-      ageValid = true;
-      invalid["valid"] = this.validForm;
-    } else {
-      ageValid = false;
-      invalid["playerId"].push(playerId);
-      invalid["input"].push(1);
-    }
-
-    if (typeof email == "string" && email.length > 5 && email.length < 255) {
-      emailValid = true;
-      invalid["valid"] = this.validForm;
-    } else {
-      emailValid = false;
-      invalid["playerId"].push(playerId);
-      invalid["input"].push(2);
-    }
-    if (
-      typeof gameExperience == "number" &&
-      gameExperience > 0 &&
-      gameExperience <= 5
-    ) {
-      expValid = true;
-      invalid["valid"] = this.validForm;
-    } else {
-      expValid = false;
-      invalid["playerId"].push(playerId);
-      invalid["input"].push(3);
-    }
-
-    if (usernameValid && ageValid && emailValid && emailValid) {
+    if (usernameValid && ageValid && emailValid && expValid) {
       invalid["valid"] = true;
     } else {
       invalid["valid"] = false;
     }
-
     return invalid;
   }
 
