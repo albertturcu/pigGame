@@ -17,7 +17,7 @@ describe("#pigGame", () => {
 
   describe("Check player profile with valid data", () => {
     validUserProfileProvider.forEach((userProfile) => {
-      it(`should return ${userProfile.result}`, () => {
+      it(`should return ${userProfile.result}, if valid data provided`, () => {
         assert.equal(
           game.formValidation(userProfile).valid,
           userProfile.result
@@ -27,7 +27,7 @@ describe("#pigGame", () => {
   });
   describe("Check player profile with invalid data", () => {
     invalidUserProfileProvider.forEach((userProfile) => {
-      it(`should return ${userProfile.result}`, () => {
+      it(`should return ${userProfile.result}, if invalid data provided`, () => {
         assert.equal(
           game.formValidation(userProfile).valid,
           userProfile.result
