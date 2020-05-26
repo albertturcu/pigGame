@@ -10,38 +10,45 @@ class PigGame {
   }
 
   btnRoll(dice, secondDice) {
-    if (this.gameReady) {
-      if (dice !== 1 && secondDice !== 1) {
-        this.roundScore += dice + secondDice;
-        return this.roundScore;
-      } else {
-        return "nextPlayer";
+    if(Number.isInteger(dice) == true && Number.isInteger(secondDice) == true){
+      if (this.gameReady) {
+        if (dice == 1 && secondDice == 1) {
+          return "nextPlayer";
+        } else {
+          this.roundScore += dice + secondDice;
+          return this.roundScore;
+        }    
+      }else{
+        return "Game not started";
       }
     }
-    return "Game not started";
-  }
+      return "Invalid input";
+    }
 
   btnHold(finalScore) {
-    let winningScore;
+    if (finalScore>=10 && finalScore<=150){
+      let winningScore;
+      if (this.gameReady) {
+        if (Number.isInteger(this.roundScore)) {
+          this.scores[this.activePlayer] += this.roundScore;
+        }
 
-    if (this.gameReady) {
-      if (Number.isInteger(this.roundScore)) {
-        this.scores[this.activePlayer] += this.roundScore;
-      }
+        if (finalScore) {
+          winningScore = finalScore;
+        } else {
+          winningScore = 100;
+        }
 
-      if (finalScore) {
-        winningScore = finalScore;
-      } else {
-        winningScore = 100;
+        if (this.scores[this.activePlayer] >= winningScore) {
+          this.gameReady = false;
+          return { winner: this.scores[this.activePlayer] };
+        } else {
+          this.roundScore = 0;
+          return { nextPlayer: this.scores[this.activePlayer] };
+        }
       }
-
-      if (this.scores[this.activePlayer] >= winningScore) {
-        this.gameReady = false;
-        return { winner: this.scores[this.activePlayer] };
-      } else {
-        this.roundScore = 0;
-        return { nextPlayer: this.scores[this.activePlayer] };
-      }
+    }else{
+      return "Invalid final score";
     }
   }
 
