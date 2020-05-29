@@ -1,5 +1,4 @@
 const assert = require("chai").assert;
-const expect = require("chai").expect;
 const { PigGame } = require("../script");
 const {
   validUserProfileProvider,
@@ -9,8 +8,6 @@ const {
   btnHoldInvalidProvider,
   savePlayerProvider
 } = require("./providers");
-
-const sinon = require("sinon");
 
 describe("#pigGame", () => {
   let game = new PigGame();
