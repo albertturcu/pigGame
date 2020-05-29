@@ -3,7 +3,7 @@ const { expect } = require("chai");
 
 const opts = {
   headless: false,
-  slowMo: 50,
+  slowMo: 10,
   timeout: 0,
   args: ["--start-maximized"],
 };

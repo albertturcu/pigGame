@@ -16,7 +16,7 @@ describe("Automated UI testing of Pig Game", async () => {
     await page.close();
   });
 
-  describe.only("Validate player profile fields with data", async () => {
+  describe("Validate player profile fields with data", async () => {
     validSet.forEach(async (element) => {
       it("should fill the input fields with data on player 1 and save it", async () => {
         const usernameInput = "#player-1-username";
@@ -84,7 +84,7 @@ describe("Automated UI testing of Pig Game", async () => {
     });
   });
 
-  describe.only("Play game, test buttons and fill input fields", async () => {
+  describe("Play game, test buttons and fill input fields", async () => {
     it("should fill the final score input", async () => {
       const finalScoreInput = ".final-score";
       linkFinalScore = await page.$(finalScoreInput);
@@ -207,123 +207,134 @@ describe("Automated UI testing of Pig Game", async () => {
         });
     });
   });
+  
+  describe("Reset game", async () => {
+    it("should reset the game for both players", async () => {
+      const newButton = ".btn-new";
+      linkNewButton = await page.$(newButton);
+      await linkNewButton.click({ clickCount: 1 });
+      assert.equal(!!linkNewButton, true);
+      await page.waitFor(500);
+    });
+  });
 
-  // describe("Play another round, after game reset", async () => {
-  //   it("should fill the final score input", async () => {
-  //     const finalScoreInput = ".final-score";
-  //     linkFinalScore = await page.$(finalScoreInput);
-  //     await linkFinalScore.click({ clickCount: 3 });
-  //     await linkFinalScore.type("90");
-  //     assert.equal(!!linkFinalScore, true);
-  //   });
+  describe("Play another round, after game reset", async () => {
+    it("should fill the final score input", async () => {
+      const finalScoreInput = ".final-score";
+      linkFinalScore = await page.$(finalScoreInput);
+      await linkFinalScore.click({ clickCount: 3 });
+      await linkFinalScore.type("90");
+      assert.equal(!!linkFinalScore, true);
+    });
 
-  //   it("should roll the dice 1 time for player 1", async () => {
-  //     const rollButton = ".btn-roll";
-  //     linkRollButton = await page.$(rollButton);
-  //     await linkRollButton.click({ clickCount: 1 });
-  //     assert.equal(!!linkRollButton, true);
-  //     await page.waitFor(500);
-  //   });
-  //   it("should hold the turn for player 1", async () => {
-  //     const holdButton = ".btn-hold";
-  //     linkHoldButton = await page.$(holdButton);
-  //     await linkHoldButton.click({ clickCount: 1 });
-  //     assert.equal(!!linkHoldButton, true);
-  //     await page.waitFor(500);
-  //   });
-  //   it("should roll the dice 2 times for player 2", async () => {
-  //     const rollButton = ".btn-roll";
-  //     linkRollButton = await page.$(rollButton);
-  //     await linkRollButton.click({ clickCount: 2 });
-  //     assert.equal(!!linkRollButton, true);
-  //     await page.waitFor(500);
-  //   });
-  //   it("should hold the turn for player 2", async () => {
-  //     const holdButton = ".btn-hold";
-  //     linkHoldButton = await page.$(holdButton);
-  //     await linkHoldButton.click({ clickCount: 1 });
-  //     assert.equal(!!linkHoldButton, true);
-  //     await page.waitFor(500);
-  //   });
-  // });
+    it("should roll the dice 1 time for player 1", async () => {
+      const rollButton = ".btn-roll";
+      linkRollButton = await page.$(rollButton);
+      await linkRollButton.click({ clickCount: 1 });
+      assert.equal(!!linkRollButton, true);
+      await page.waitFor(500);
+    });
+    it("should hold the turn for player 1", async () => {
+      const holdButton = ".btn-hold";
+      linkHoldButton = await page.$(holdButton);
+      await linkHoldButton.click({ clickCount: 1 });
+      assert.equal(!!linkHoldButton, true);
+      await page.waitFor(500);
+    });
+    it("should roll the dice 2 times for player 2", async () => {
+      const rollButton = ".btn-roll";
+      linkRollButton = await page.$(rollButton);
+      await linkRollButton.click({ clickCount: 2 });
+      assert.equal(!!linkRollButton, true);
+      await page.waitFor(500);
+    });
+    it("should hold the turn for player 2", async () => {
+      const holdButton = ".btn-hold";
+      linkHoldButton = await page.$(holdButton);
+      await linkHoldButton.click({ clickCount: 1 });
+      assert.equal(!!linkHoldButton, true);
+      await page.waitFor(500);
+    });
+  });
 
-  // describe("Test invalid data in player forms", async () => {
-  //   invalidDataLeftPlayer.forEach(async(element, index)=>{
-  //     it(`Checks data for invalid case number ${index}`, async () => {
-  //       const newButton = ".btn-new";
-  //       linkNewButton = await page.$(newButton);
-  //       await linkNewButton.click({ clickCount: 1 });
-  //       assert.equal(!!linkNewButton, true);
-  //       await page.waitFor(500);
+  describe("Test invalid data in player forms", async () => {
 
-  //       const usernameInput = "#player-1-username";
-  //       const ageInput = "#player-1-age";
-  //       const emailInput = "#player-1-email";
-  //       const experienceInput = "#player-1-experience";
-  //       const saveButton = "#save-player-one";
+    invalidDataLeftPlayer.forEach(async(element, index)=>{
+      it(`Checks data for invalid case number ${index}`, async () => {
+        const newButton = ".btn-new";
+        linkNewButton = await page.$(newButton);
+        await linkNewButton.click({ clickCount: 1 });
+        assert.equal(!!linkNewButton, true);
+        await page.waitFor(500);
+
+        const usernameInput = "#player-1-username";
+        const ageInput = "#player-1-age";
+        const emailInput = "#player-1-email";
+        const experienceInput = "#player-1-experience";
+        const saveButton = "#save-player-one";
       
-  //       linkUsername = await page.$(usernameInput);
-  //       await linkUsername.click({ clickCount: 3 });
-  //       await linkUsername.type(element.username);
-  //       assert.equal(!!linkUsername, true);
+        linkUsername = await page.$(usernameInput);
+        await linkUsername.click({ clickCount: 3 });
+        await linkUsername.type(element.username);
+        assert.equal(!!linkUsername, true);
     
-  //       linkAge = await page.$(ageInput);
-  //       await linkAge.click({ clickCount: 3 });
-  //       await linkAge.type(element.age);
-  //       assert.equal(!!linkAge, true);
+        linkAge = await page.$(ageInput);
+        await linkAge.click({ clickCount: 3 });
+        await linkAge.type(element.age);
+        assert.equal(!!linkAge, true);
 
-  //       linkEmail = await page.$(emailInput);
-  //       await linkEmail.click({ clickCount: 3 });
-  //       await linkEmail.type(element.email);
-  //       assert.equal(!!linkEmail, true);
+        linkEmail = await page.$(emailInput);
+        await linkEmail.click({ clickCount: 3 });
+        await linkEmail.type(element.email);
+        assert.equal(!!linkEmail, true);
 
-  //       linkExp = await page.$(experienceInput);
-  //       await linkExp.click({ clickCount: 3 });
-  //       await linkExp.type(element.experience);
-  //       assert.equal(!!linkExp, true);
+        linkExp = await page.$(experienceInput);
+        await linkExp.click({ clickCount: 3 });
+        await linkExp.type(element.experience);
+        assert.equal(!!linkExp, true);
 
-  //       linkSaveButton = await page.$(saveButton);
-  //       await linkSaveButton.click({ clickCount: 3 });
-  //       assert.equal(!!linkSaveButton, true);
-  //     });
+        linkSaveButton = await page.$(saveButton);
+        await linkSaveButton.click({ clickCount: 3 });
+        assert.equal(!!linkSaveButton, true);
+      });
 
-  //     // it(`Checks data for invalid case number ${index}`, async () => {
-  //     //   const newButton = ".btn-new";
-  //     //   linkNewButton = await page.$(newButton);
-  //     //   await linkNewButton.click({ clickCount: 1 });
-  //     //   assert.equal(!!linkNewButton, true);
-  //     //   await page.waitFor(500);
+      it(`Checks data for invalid case number ${index}`, async () => {
+        const newButton = ".btn-new";
+        linkNewButton = await page.$(newButton);
+        await linkNewButton.click({ clickCount: 1 });
+        assert.equal(!!linkNewButton, true);
+        await page.waitFor(500);
 
-  //     //   const usernameInput = "#player-2-username";
-  //     //   const ageInput = "#player-2-age";
-  //     //   const emailInput = "#player-2-email";
-  //     //   const experienceInput = "#player-2-experience";
-  //     //   const saveButton = "#save-player-two";
+        const usernameInput = "#player-2-username";
+        const ageInput = "#player-2-age";
+        const emailInput = "#player-2-email";
+        const experienceInput = "#player-2-experience";
+        const saveButton = "#save-player-two";
       
-  //     //   linkUsername = await page.$(usernameInput);
-  //     //   await linkUsername.click({ clickCount: 3 });
-  //     //   await linkUsername.type(element.username);
-  //     //   assert.equal(!!linkUsername, true);
+        linkUsername = await page.$(usernameInput);
+        await linkUsername.click({ clickCount: 3 });
+        await linkUsername.type(element.username);
+        assert.equal(!!linkUsername, true);
     
-  //     //   linkAge = await page.$(ageInput);
-  //     //   await linkAge.click({ clickCount: 3 });
-  //     //   await linkAge.type(element.age);
-  //     //   assert.equal(!!linkAge, true);
+        linkAge = await page.$(ageInput);
+        await linkAge.click({ clickCount: 3 });
+        await linkAge.type(element.age);
+        assert.equal(!!linkAge, true);
 
-  //     //   linkEmail = await page.$(emailInput);
-  //     //   await linkEmail.click({ clickCount: 3 });
-  //     //   await linkEmail.type(element.email);
-  //     //   assert.equal(!!linkEmail, true);
+        linkEmail = await page.$(emailInput);
+        await linkEmail.click({ clickCount: 3 });
+        await linkEmail.type(element.email);
+        assert.equal(!!linkEmail, true);
 
-  //     //   linkExp = await page.$(experienceInput);
-  //     //   await linkExp.click({ clickCount: 3 });
-  //     //   await linkExp.type(element.experience);
-  //     //   assert.equal(!!linkExp, true);
+        linkExp = await page.$(experienceInput);
+        await linkExp.click({ clickCount: 3 });
+        await linkExp.type(element.experience);
+        assert.equal(!!linkExp, true);
 
-  //     //   linkSaveButton = await page.$(saveButton);
-  //     //   await linkSaveButton.click({ clickCount: 3 });
-  //     //   assert.equal(!!linkSaveButton, true);
-  //     // });
-  //   });
-  // });
+        linkSaveButton = await page.$(saveButton);
+        await linkSaveButton.click({ clickCount: 3 });
+        assert.equal(!!linkSaveButton, true);
+      });
+    });
+  });
 });
