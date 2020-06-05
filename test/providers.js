@@ -250,6 +250,8 @@ const savePlayerProvider =[
     },
     result: "Not valid player"
   }
-]
+];
 
-module.exports = { invalidUserProfileProvider, validUserProfileProvider, btnRollProvider, btnHoldValidProvider, btnHoldInvalidProvider,savePlayerProvider };
+const nullValues = [null, undefined, false, NaN];
+
+module.exports = { invalidUserProfileProvider, validUserProfileProvider, btnRollProvider, btnHoldValidProvider, btnHoldInvalidProvider, savePlayerProvider, nullValues };

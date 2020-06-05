@@ -17,7 +17,7 @@ class PigGame {
         } else {
           this.roundScore += dice + secondDice;
           return this.roundScore;
-        }    
+        }
       }else{
         return "Game not started";
       }
